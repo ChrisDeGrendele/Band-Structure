@@ -1,6 +1,8 @@
 %function [out1,out2] = function_name(in1,in2)
 %function [Te] = Build_Te()
 
+%Test
+
 
 Hd = input('Enter Matrix Hd as nxn >')
 Hs = input('Enter Matrix Hs as nxn >')
