@@ -1,10 +1,10 @@
-function = Build_Pseudo(Te,z)
-  %Te is the transfer Matrix, z is the specific energy value that we are working with,
+function = Build_Pseudo(Te,E)
+  %Te is the transfer Matrix, E is the specific energy value that we are working with,
   %This is to name the plots
 
     resolution = 400;%Resolution
     output_size = [3000 1800];%Size in pixels
-    save = "no"
+    save = "no";
 
     opts.npts=100;
     %opts.levels=-7.5:0.5:-2;
@@ -23,8 +23,8 @@ function = Build_Pseudo(Te,z)
     eigtool(Te,opts)
     if save == "yes"
         set(gcf,'paperunits','inches','paperposition',[0 0 output_size/resolution]);
-        print(compose("T_%d.png",z),'-dpng',['-r' num2str(resolution)]);
-        saveas(fig, compose("T_%",z), 'png')
+        print(compose("T_%d.png",E),'-dpng',['-r' num2str(resolution)]);
+        saveas(fig, compose("T_%",E), 'png')
     elseif save == "no"
         
 end
