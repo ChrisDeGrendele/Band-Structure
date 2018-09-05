@@ -1,4 +1,4 @@
-function = Build_Pseudo(Te,E)
+function Build_Pseudo(Te,E)
   %Te is the transfer Matrix, E is the specific energy value that we are working with,
   %This is to name the plots
 
@@ -26,5 +26,7 @@ function = Build_Pseudo(Te,E)
         print(compose("T_%d.png",E),'-dpng',['-r' num2str(resolution)]);
         saveas(fig, compose("T_%",E), 'png')
     elseif save == "no"
+    end
+   
         
 end
