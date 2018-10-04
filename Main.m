@@ -16,7 +16,7 @@ for e = a:b
     Build_Pseudo(Te,e)
     [V,D] = eig(Te);
     
-    
+   
 %Build D' (eigen values > 1 = 0)
     [XX,YY] = size(D);
     i =1;
@@ -35,9 +35,9 @@ for e = a:b
     end
     
         k=1;
+         %This is the plot of ||A^k|| vs E vs k
         while k < 20
-            T_k = norm( V* (Dprime^k) *V^-1 );    
-        
+        T_k = norm( V* (Dprime^k) *V^-1 );
                 if (e == a) & (k==1)
                     XXX = k;
                     YYY = e;
