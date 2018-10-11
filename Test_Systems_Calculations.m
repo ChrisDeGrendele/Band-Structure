@@ -45,7 +45,18 @@ for e = a:.1:b
     end
             
 end
-figure
+
+figure;
+subplot(2,2,2);
 scatter(real(Data_x), Data_y)
-figure
+title('Real k v. E')
+
+subplot(2,2,1);
 scatter(imag(Data_x), Data_y)
+title('Imaginary k v. E')
+
+
+%scatter(real(Data_x), Data_y)
+%figure
+%scatter(imag(Data_x), Data_y)
+
