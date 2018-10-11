@@ -48,11 +48,11 @@ end
 
 figure;
 subplot(2,2,2);
-scatter(real(Data_x), Data_y)
+scatter(abs(real(Data_x)), Data_y)
 title('Real k v. E')
 
 subplot(2,2,1);
-scatter(imag(Data_x), Data_y)
+scatter(abs(imag(Data_x)), Data_y)
 title('Imaginary k v. E')
 
 
