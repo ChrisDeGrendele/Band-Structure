@@ -3,12 +3,12 @@ alpha =-.3
 beta_1 = -2.2
 beta_2 = 1.5
 %Test system 1
-Hd = [alpha, beta_1;beta_1,-alpha];
-Hs = [0,beta_2;beta_2,0];
+%Hd = [alpha, beta_1;beta_1,-alpha];
+%Hs = [0,beta_2;beta_2,0];
 
 %Test System 2
-%Hd = [alpha, beta_1;beta_1,alpha];
-%Hs = [beta_2,0;0,0.0001];
+Hd = [alpha, beta_1;beta_1,alpha];
+Hs = [beta_2,0;0,1];
 
 %Data
 %Hd = [.8,-.4;-.4,-.8];
