@@ -269,7 +269,7 @@ fprintf("E_upper = %f, E_lower = %f\n", E_upper, E_lower)
 Branch_pos = (E_branch - E_lower)/(E_upper - E_lower);
 
 %Returns a ratio of width/height. Bigger = longer, smaller = "stubbier"
-wid_hei_ratio = K_branch/(E_upper - E_lower);
+wid_hei_ratio = K_Branch/(E_upper - E_lower);
 
 fprintf("Normalied Branch position = %f\n", Branch_pos)
 fprintf("Ratio of width/height = %f\n", wid_hei_ratio)
