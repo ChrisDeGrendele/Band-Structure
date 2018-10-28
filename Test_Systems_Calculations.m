@@ -1,19 +1,26 @@
 clear all
-alpha = -3;
-beta_1 = -2.2;  %THIS GIVES WEIRD STUFF?
-beta_2 = 1.5;
+%alpha = -3;
+%beta_1 = -2.2;  %THIS GIVES WEIRD STUFF?
+%beta_2 = 1.5;
 
 %alpha = 0.8;
 %beta_1 = -.4;
 %beta_2 = -1.3;
 
 %Test system 1
-Hd = [alpha, beta_1;beta_1,-alpha];
-Hs = [0,beta_2;beta_2,0];
+%Hd = [alpha, beta_1;beta_1,-alpha];
+%Hs = [0,beta_2;beta_2,0];
 
 %Test System 2
 %Hd = [alpha, beta_1;beta_1,alpha];
 %Hs = [beta_2,0;0,0];
+
+%Test System 3 
+alpha = 0.69;
+beta_1 = -1.2;
+beta_2 = -.7;
+Hd = [alpha, beta_1;beta_1,alpha];
+Hs = [beta_2,0;0,0];
 
 %Data
 %Hd = [.8,-.4;-.4,-.8];
@@ -100,12 +107,17 @@ while stop == 0
 for j = 1:size(Real_k,2)
     if size(Real_k,2) < j
         break
-    elseif abs( Real_k(j) ) - .01 < 0   %OUT WITH 0 
+    elseif abs( Real_k(j) ) - .1 < 0   %OUT WITH 0 
         Real_k(j) = [];
         Real_E(j) = [];
         Real_k(end) = [];   %Screens out zeros and infty eigen values.
         Real_E(end) = [];
+        stop=0;
         break
+    elseif abs ( Real_k(j)) == inf
+        Real_k(j) = [];
+        Real_E(j) = [];
+        stop=0;
     elseif abs (Real_k(j) - pi*.5)  < .01   %OUT WITH PI/2
         Real_k(j) = [];
         Real_E(j) = [];
@@ -135,11 +147,14 @@ for j = 1:size(Imag_k,2)
         break
     elseif abs( Imag_k(j) ) < .1
         Imag_k(j) = [];
-        Imag_E(j) = [];
-        Imag_k(end) = []; %Screens out zeros and corresponding "inifity"
-        Imag_E(end) = []; 
+        Imag_E(j) = []; 
+        stop=0;
         flag = 1;
         break
+    elseif abs ( Imag_k(j) ) == inf
+        Imag_k(j) = [];
+        Imag_E(j) = [];
+        stop=0;
     else
         stop=1;
     end
@@ -148,7 +163,11 @@ for j = 1:size(Imag_k,2)
     end
 end
 end
-
+ 
+if Imag_k(end) - Imag_k(end-1) > Imag_k(end-1)
+    Imag_k(end) = [];
+    Imag_E(end) = [];
+end
 
 
 figure;
