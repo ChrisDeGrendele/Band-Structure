@@ -16,11 +16,22 @@ clear all
 %Hs = [beta_2,0;0,0];
 
 %Test System 3 
+%alpha = 0.69;
+%beta_1 = -1.2;
+%beta_2 = -.7;
+%Hd = [alpha, beta_1;beta_1,alpha];
+%Hs = [beta_2,0;0,0];
+%Hd = [alpha, beta_1;beta_1,-alpha];
+%Hs = [0,beta_2;beta_2,0];
+
+%Test System 4
 alpha = 0.69;
-beta_1 = -1.2;
-beta_2 = -.7;
-Hd = [alpha, beta_1;beta_1,alpha];
-Hs = [beta_2,0;0,0];
+beta_1 = -1.35;
+beta_2 = .92;
+%Hd = [alpha, beta_1;beta_1,alpha];
+%Hs = [beta_2,0;0,0];
+Hd = [alpha, beta_1;beta_1,-alpha];
+Hs = [0,beta_2;beta_2,0];
 
 %Data
 %Hd = [.8,-.4;-.4,-.8];
@@ -164,6 +175,12 @@ for j = 1:size(Imag_k,2)
 end
 end
  
+[Imag_k, sortIndex] = sort(Imag_k);
+Imag_E = Imag_E(sortIndex);
+
+Imag_k(1) = [];
+Imag_E(1) = [];
+
 if Imag_k(end) - Imag_k(end-1) > Imag_k(end-1)
     Imag_k(end) = [];
     Imag_E(end) = [];
