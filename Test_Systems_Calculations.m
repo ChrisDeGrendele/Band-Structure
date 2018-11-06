@@ -30,8 +30,46 @@ beta_1 = -1.35;
 beta_2 = .92;
 %Hd = [alpha, beta_1;beta_1,alpha];
 %Hs = [beta_2,0;0,0];
+%Hd = [alpha, beta_1;beta_1,-alpha];
+%Hs = [0,beta_2;beta_2,0];
+
+%Test System 5
+alpha = 0.21;
+beta_1 = -2.43;
+beta_2 = .13;
+%Hd = [alpha, beta_1;beta_1,alpha];
+%Hs = [beta_2,0;0,0];
 Hd = [alpha, beta_1;beta_1,-alpha];
 Hs = [0,beta_2;beta_2,0];
+
+%Model System 3
+alpha = 0;
+beta = -.5;
+Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
+Hs = zeros(6);
+Hs(1,4) = beta;
+
+%Model System 4
+alpha = 0;
+beta = -.5;
+Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
+Hs = zeros(6);
+Hs(1,3) = beta;
+
+%Model System 5
+alpha = 0;
+beta = -.5;
+Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
+Hs = zeros(6);
+Hs(1,2) = beta;
+
+%Model System 6
+%Hd = -.5* [0,1,0,0,0,1;1,0,1,0,0,0;0,1,0,1,0,0;0,0,1,0,1,0;0,0,0,1,0,1;1,0,0,0,1,0];
+%Hs = zeros(6);
+%Hs(2,1) = -.5;
+%Hs(3,4) = -.5;
+%Hs(5,4)= -.5;
+%Hs(6,1) = -.5;
 
 %Data
 %Hd = [.8,-.4;-.4,-.8];
@@ -40,13 +78,13 @@ Hs = [0,beta_2;beta_2,0];
 
 %Hd = [0];
 %Hs = [-1/2];
-E=[-10,10];
+E=[-2,2];
 
     a = E(1,1);
     b = E(1,2);
   
     
-for e = a:.01:b 
+for e = a:.001:b 
     
     Hsdagger = (Hs)' ;
     length = size(Hsdagger,1);
@@ -178,13 +216,13 @@ end
 [Imag_k, sortIndex] = sort(Imag_k);
 Imag_E = Imag_E(sortIndex);
 
-Imag_k(1) = [];
-Imag_E(1) = [];
+%Imag_k(1) = [];
+%Imag_E(1) = [];
 
-if Imag_k(end) - Imag_k(end-1) > Imag_k(end-1)
-    Imag_k(end) = [];
-    Imag_E(end) = [];
-end
+%if Imag_k(end) - Imag_k(end-1) > Imag_k(end-1)
+%    Imag_k(end) = [];
+%    Imag_E(end) = [];
+%end
 
 
 figure;
