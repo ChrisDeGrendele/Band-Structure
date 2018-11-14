@@ -3,13 +3,13 @@ clear all
 %beta_1 = -2.2;  %THIS GIVES WEIRD STUFF?
 %beta_2 = 1.5;
 
-alpha = 0.8;
-beta_1 = -.4;
-beta_2 = -1.3;
+%alpha = 0.8;
+%beta_1 = -.4;
+%beta_2 = -1.3;
 
 %Test system 1
-Hd = [alpha, beta_1;beta_1,-alpha];
-Hs = [0,beta_2;beta_2,0];
+%Hd = [alpha, beta_1;beta_1,-alpha];
+%Hs = [0,beta_2;beta_2,0];
 
 %Test System 2
 %Hd = [alpha, beta_1;beta_1,alpha];
@@ -25,22 +25,22 @@ Hs = [0,beta_2;beta_2,0];
 %Hs = [0,beta_2;beta_2,0];
 
 %Test System 4
-%alpha = 0.69;
-%beta_1 = -1.35;
-%beta_2 = .92;
+alpha = 0.69;
+beta_1 = -1.35;
+beta_2 = .92;
 %Hd = [alpha, beta_1;beta_1,alpha];
 %Hs = [beta_2,0;0,0];
 %Hd = [alpha, beta_1;beta_1,-alpha];
 %Hs = [0,beta_2;beta_2,0];
 
 %Test System 5
-%alpha = 0.21;
-%beta_1 = -2.43;
-%beta_2 = .13;
+alpha = 0.21;
+beta_1 = -2.43;
+beta_2 = .13;
 %Hd = [alpha, beta_1;beta_1,alpha];
 %Hs = [beta_2,0;0,0];
-%Hd = [alpha, beta_1;beta_1,-alpha];
-%Hs = [0,beta_2;beta_2,0];
+Hd = [alpha, beta_1;beta_1,-alpha];
+Hs = [0,beta_2;beta_2,0];
 
 %Model System 3
 %alpha = 0;
@@ -48,8 +48,8 @@ Hs = [0,beta_2;beta_2,0];
 %Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, beta, ...
 %    alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, beta, alpha,...
 %    beta; beta, 0, 0, 0, beta, alpha];
-%Hs = zeros(6);
-%Hs(1,4) = beta;
+Hs = zeros(6);
+Hs(1,4) = beta;
 
 %Model System 4
 %alpha = 0;
@@ -84,7 +84,7 @@ Hs = [0,beta_2;beta_2,0];
 
 %Hd = [0];
 %Hs = [-1/2];
-E=[-4,4];
+E=[-2,2];
 
   
     
@@ -94,9 +94,7 @@ E=[-4,4];
 
 %Build imaginary and real data to plot. 
 %This will plot a point with imag to imag
-min_epsilon = 1e-3;
-min_spacing = .02;
-[Data_x, Data_y] = amr_KvsE(Hd,Hs,E,min_epsilon, min_spacing);
+amr_KvsE(Hd,Hs,E,min_epsilon, min_spacing)
 %And only purely real to real
 
 
