@@ -113,7 +113,7 @@ for e = a:.001:b
     
     temp = [];
     for j = 1:size(D,2)
-        temp = [temp, (log( D(j,j) )/(1i))];
+        temp = [temp, D(j,j)];
     end
     
     temp = sort(temp);
@@ -168,7 +168,8 @@ ylim([a,b])
 
 
 
-return 
+return %Code WIll stop here%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %SCREEN OUT 0 , pi, pi/2 for real data
 
