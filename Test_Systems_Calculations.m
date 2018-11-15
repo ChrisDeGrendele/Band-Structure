@@ -3,13 +3,13 @@ clear all
 %beta_1 = -2.2;  %THIS GIVES WEIRD STUFF?
 %beta_2 = 1.5;
 
-%alpha = 0.8;
-%beta_1 = -.4;
-%beta_2 = -1.3;
+alpha = 0.8;
+beta_1 = -.4;
+beta_2 = -1.3;
 
 %Test system 1
-%Hd = [alpha, beta_1;beta_1,-alpha];
-%Hs = [0,beta_2;beta_2,0];
+Hd = [alpha, beta_1;beta_1,-alpha];
+Hs = [0,beta_2;beta_2,0];
 
 %Test System 2
 %Hd = [alpha, beta_1;beta_1,alpha];
@@ -25,43 +25,49 @@ clear all
 %Hs = [0,beta_2;beta_2,0];
 
 %Test System 4
-alpha = 0.69;
-beta_1 = -1.35;
-beta_2 = .92;
+%alpha = 0.69;
+%beta_1 = -1.35;
+%beta_2 = .92;
 %Hd = [alpha, beta_1;beta_1,alpha];
 %Hs = [beta_2,0;0,0];
 %Hd = [alpha, beta_1;beta_1,-alpha];
 %Hs = [0,beta_2;beta_2,0];
 
-%Test System 5
-alpha = 0.21;
-beta_1 = -2.43;
-beta_2 = .13;
+%%Test System 5
+%alpha = 0.21;
+%beta_1 = -2.43;
+%beta_2 = .13;
 %Hd = [alpha, beta_1;beta_1,alpha];
 %Hs = [beta_2,0;0,0];
-Hd = [alpha, beta_1;beta_1,-alpha];
-Hs = [0,beta_2;beta_2,0];
+%Hd = [alpha, beta_1;beta_1,-alpha];
+%Hs = [0,beta_2;beta_2,0];
 
-%Model System 3
-alpha = 0;
-beta = -.5;
-Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
-Hs = zeros(6);
-Hs(1,4) = beta;
+%%Model System 3
+%alpha = 0;
+%beta = -.5;
+%Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, ... 
+%    0, 0, 0; 0, beta, alpha, beta, 0, 0; 0, 0, beta, alpha,...
+%    beta, 0; 0, 0, 0, beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
+%Hs = zeros(6);
+%Hs(1,4) = beta;
 
 %Model System 4
-alpha = 0;
-beta = -.5;
-Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
-Hs = zeros(6);
-Hs(1,3) = beta;
+%alpha = 0;
+%beta = -.5;
+%Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0,...
+%    beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, ...
+%    beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
+%Hs = zeros(6);
+%Hs(1,3) = beta;
 
 %Model System 5
-alpha = 0;
-beta = -.5;
-Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
-Hs = zeros(6);
-Hs(1,2) = beta;
+%alpha = 0;
+%beta = -.5;
+%Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, beta, ...
+%    alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, beta, alpha,...
+%    beta; beta, 0, 0, 0, beta, alpha];
+%Hs = zeros(6);
+%Hs(1,2) = beta;
 
 %Model System 6
 %Hd = -.5* [0,1,0,0,0,1;1,0,1,0,0,0;0,1,0,1,0,0;0,0,1,0,1,0;0,0,0,1,0,1;1,0,0,0,1,0];
@@ -88,10 +94,16 @@ Hs = [0,beta_2;beta_2,0];
 %Hd = [0];
 %Hs = [-1/2];
 E=[-4,4];
+<<<<<<< HEAD
+=======
 
-    a = E(1,1);
-    b = E(1,2);
-  
+a = E(1,1); 
+b = E(1,2);
+Data_x = [];
+Data_y = [];
+
+>>>>>>> 91ffa335a0d6777480ac5d3c76fcf6474bc3a4dd
+
     
 for e = a:.001:b 
     
@@ -109,33 +121,23 @@ for e = a:.001:b
     A = [e*eye(length) - Hd, -Hs; eye(length), zeros(length)];
     B = [Hsdagger, zeros(length); zeros(length), eye(length)];
     [V,D] = eig(A,B); %AV = BVD
-
-        
-    %Take the 0 and infinity eigen values out.
-  %  for i = 1:size(D)
-  %      diag =sort( diag(D)' );
-        
-   %     if abs( diag(1,i)  ) < .01
-            
-        
-    %end
-  
-        %#Number 1 2d plot of E vs k
-    [count, count2] = size(D);
     
-    if (a==e)
-        for j = 1:count
-           Data_x(1,j) = log( D(j,j) )/(1i);
-           Data_y(1,j) = e;
-           j = j+1;
-        end 
-    else 
-        for j = 1:count
-            Data_x = [Data_x, (log( D(j,j) )/(1i)) ];
-            Data_y = [Data_y, e];
-        end
+    
+    temp = [];
+    for j = 1:size(D,2)
+        temp = [temp, D(j,j)];
     end
-            
+    
+    temp = sort(temp);
+    
+    for j = 1:rank(Hs)
+        index1 = size(D,2)/2 - j +1;
+        index2 = size(D,2)/2 +j;
+        
+        Data_x = [Data_x, log( temp(index1) )/(1i), log( temp(index2) )/(1i)];
+        Data_y = [Data_y, e, e];    
+    end
+     
 end
 
 %Build imaginary and real data to plot. 
@@ -145,6 +147,7 @@ Imag_k=  [];
 Imag_E = [];
 Real_k = [];
 Real_E = [];
+
 for e = 1:size(Data_x,2)
     if imag( Data_x(e) ) ~= 0
         Imag_k = [Imag_k, imag(Data_x(e)) ];
@@ -155,6 +158,30 @@ for e = 1:size(Data_x,2)
     end
 end
 
+
+
+
+
+
+
+figure;
+ax1=subplot('Position',[.4 .3 .3 .3]); %Position = [Left bottom width height];
+scatter(abs(Real_k), Real_E, '.')
+title('Real k v. E')
+ylim([a,b])
+
+hold on
+ax2=subplot('Position',[.1 .3 .3 .3]);
+set(ax2,'YTick',[],'XTick',[]);
+scatter( -abs(Imag_k), Imag_E, '.')
+title('Imaginary k v. E')
+ylim([a,b])
+
+
+
+
+return %Code WIll stop here%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %SCREEN OUT 0 , pi, pi/2 for real data
 
@@ -190,6 +217,7 @@ for j = 1:size(Real_k,2)
 end
 
 end
+
 
 
 %Sorts data
