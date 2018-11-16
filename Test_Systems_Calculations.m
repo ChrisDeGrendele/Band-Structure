@@ -96,7 +96,7 @@ b = E(1,2);
 
 %Build imaginary and real data to plot. 
 %This will plot a point with imag to imag
-min_epsilon = 1e-3;
+min_epsilon = 1e-4;
 min_spacing = .02;
 
 
@@ -116,6 +116,24 @@ for e = 1:size(Data_x,2)
         Real_E = [Real_E, Data_y(e)];
     end
 end
+
+
+figure;
+ax1=subplot('Position',[.4 .3 .3 .3]); %Position = [Left bottom width height];
+scatter(abs(Real_k), Real_E, '.')
+title('Real k v. E')
+ylim([a,b])
+
+hold on
+ax2=subplot('Position',[.1 .3 .3 .3]);
+set(ax2,'YTick',[],'XTick',[]);
+scatter( -abs(Imag_k), Imag_E, '.')
+title('Imaginary k v. E')
+ylim([a,b])
+
+return %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%CODE WILL STOP HERE%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 %SCREEN OUT 0 , pi, pi/2 for real data

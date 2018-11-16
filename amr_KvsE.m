@@ -37,7 +37,6 @@ while e < b
     end
     
     %BUILD AV = BVD (GENERALIZED EIGEN VALUE PROBLEM)
-    fprintf("%d\n",epsilon)
     A = [e*eye(length) - Hd, -Hs; eye(length), zeros(length)];
     B = [Hsdagger, zeros(length); zeros(length), eye(length)];
     [~,D] = eig(A,B); %AV = BVD
@@ -46,22 +45,22 @@ while e < b
     for j = 1:size(D,2)
         D_array = [D_array, D(j,j) ];
     end
+    
     D_array = sort(D_array);
     
     for j = 2:size(D_array,2)
-        diff = abs( abs(log(D_array(j)) ) /(1i) - abs( log( D_array(j) )/(1i)) );
+        diff = abs( abs(log( D_array(j) ) /(1i)) - abs( log( D_array(j) )/(1i) ) );
         if epsilon <= min_epsilon
             bad_data = false;
             break
-        elseif diff > ideal_spacing
+        elseif diff <= ideal_spacing
             bad_data = true;  %Bad => the gap may be too big. 
             epsilon = epsilon/2; %Halfs step
-            e = e-epsilon; %reverts back.
             break
         elseif 2*diff < ideal_spacing
             bad_data = true; %Bad => TOO refined
             epsilon = epsilon*2; %Halfs step
-            e = e-epsilon; %reverts back.
+    
             break
         else
             bad_data = false;
@@ -74,17 +73,16 @@ while e < b
         for j = 1:size(D,2)
             temp = [temp, D(j,j)];
         end
-    
-    temp = sort(temp);
-    
-    for j = 1:rank_HS
-        index1 = size(D,2)/2 - j +1;
-        index2 = size(D,2)/2 +j;
+        temp = sort(temp);
+        for j = 1:rank_HS
+            index1 = size(D,2)/2 - j +1;
+            index2 = size(D,2)/2 +j;
+
+            Data_x = [Data_x, log( temp(index1) )/(1i), log( temp(index2) )/(1i)];
+            Data_y = [Data_y, e, e];    
+        end
         
-        Data_x = [Data_x, log( temp(index1) )/(1i), log( temp(index2) )/(1i)];
-        Data_y = [Data_y, e, e];    
-    end
-    e = e + epsilon;
+        e = e + epsilon; %Only step forward if data is good
     end
 
             
