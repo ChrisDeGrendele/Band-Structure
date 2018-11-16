@@ -1,4 +1,19 @@
-function [Data_x, Data_y] = amr_KvsE(Hd,Hs,E,min_epsilon, min_spacing)
+%alpha = 0.8;
+%beta_1 = -.4;
+%beta_2 = -1.3;
+
+%Test system 1
+%Hd = [alpha, beta_1;beta_1,-alpha];
+%Hs = [0,beta_2;beta_2,0];
+%min_epsilon = 1e-3;
+%ideal_spacing = .02;
+%E = [-4,4];
+
+%[Data_x, Data_y] = amr_KvsE2(Hd,Hs,E,min_epsilon, ideal_spacing);
+
+
+
+function [Data_x, Data_y] = amr_KvsE(Hd,Hs,E,min_epsilon, ideal_spacing)
 
 a = E(1,1);
 b = E(1,2);
@@ -21,22 +36,28 @@ while e < b
     end
     
     %BUILD AV = BVD (GENERALIZED EIGEN VALUE PROBLEM)
+    fprintf("%d\n",epsilon)
     A = [e*eye(length) - Hd, -Hs; eye(length), zeros(length)];
     B = [Hsdagger, zeros(length); zeros(length), eye(length)];
     [~,D] = eig(A,B); %AV = BVD
     
+    D_array = [];
+    for j = 1:size(D,2)
+        D_array = [D_array, D(j,j) ];
+    end
+    D_array = sort(D_array);
     
-    for j = 2:size(D,2)
-        diff = abs( abs( log( D(j,j) )/(1i)) - abs( log( D(j-1,j-1) )/(1i)));
-        if min_epsilon <= min_spacing
-            bad_data = true;
+    for j = 2:size(D_array,2)
+        diff = abs( abs(log(D_array(j)) ) /(1i) - abs( log( D_array(j) )/(1i)) );
+        if epsilon <= min_epsilon
+            bad_data = false;
             break
-        elseif diff > min_spacing
+        elseif diff > ideal_spacing
             bad_data = true;  %Bad => the gap may be too big. 
             epsilon = epsilon/2; %Halfs step
             e = e-epsilon; %reverts back.
             break
-        elseif 2*diff < min_spacing
+        elseif 2*diff < ideal_spacing
             bad_data = true; %Bad => TOO refined
             epsilon = epsilon*2; %Halfs step
             e = e-epsilon; %reverts back.
@@ -47,12 +68,13 @@ while e < b
     end
     
     if bad_data == false
-        for j = 1:size(D,2)
-            Data_x = [Data_x, (log( D(j,j) )/(1i)) ]; %STORE DATA
+        for j = 1:size(D_array,2)
+            Data_x = [Data_x, (log( D_array(j) )/(1i)) ]; %STORE DATA
             Data_y = [Data_y, e];
         end
         e = e + epsilon;
     end
 
             
+end
 end

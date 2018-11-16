@@ -61,13 +61,13 @@ Hs = [0,beta_2;beta_2,0];
 %Hs(1,3) = beta;
 
 %Model System 5
-%alpha = 0;
-%beta = -.5;
-%Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, ...
-%    beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, ...
-%    beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
-%Hs = zeros(6);
-%Hs(1,2) = beta;
+alpha = 0;
+beta = -.5;
+Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, ...
+    beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, ...
+    beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
+Hs = zeros(6);
+Hs(1,2) = beta;
 
 %Model System 6
 %Hd = -.5* [0,1,0,0,0,1;1,0,1,0,0,0;0,1,0,1,0,0;0,0,1,0,1,0;0,0,0,1,0,1;1,0,0,0,1,0];
@@ -85,6 +85,8 @@ Hs = [0,beta_2;beta_2,0];
 %Hd = [0];
 %Hs = [-1/2];
 E=[-4,4];
+a = E(1,1);
+b = E(1,2);
 
   
     
@@ -96,10 +98,10 @@ E=[-4,4];
 %This will plot a point with imag to imag
 min_epsilon = 1e-3;
 min_spacing = .02;
+
+
 [Data_x, Data_y] = amr_KvsE(Hd,Hs,E,min_epsilon, min_spacing);
 %And only purely real to real
-
-
 
 Imag_k=  [];
 Imag_E = [];
