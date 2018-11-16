@@ -17,6 +17,7 @@ function [Data_x, Data_y] = amr_KvsE(Hd,Hs,E,min_epsilon, ideal_spacing)
 
 a = E(1,1);
 b = E(1,2);
+rank_HS = rank(Hs);
 %Storage for solutions
 Data_x = [];
 Data_y = [];
@@ -67,12 +68,23 @@ while e < b
         end
     end
     
-    if bad_data == false
-        for j = 1:size(D_array,2)
-            Data_x = [Data_x, (log( D_array(j) )/(1i)) ]; %STORE DATA
-            Data_y = [Data_y, e];
+    if bad_data == false 
+        
+        temp = [];
+        for j = 1:size(D,2)
+            temp = [temp, D(j,j)];
         end
-        e = e + epsilon;
+    
+    temp = sort(temp);
+    
+    for j = 1:rank_HS
+        index1 = size(D,2)/2 - j +1;
+        index2 = size(D,2)/2 +j;
+        
+        Data_x = [Data_x, log( temp(index1) )/(1i), log( temp(index2) )/(1i)];
+        Data_y = [Data_y, e, e];    
+    end
+    e = e + epsilon;
     end
 
             
