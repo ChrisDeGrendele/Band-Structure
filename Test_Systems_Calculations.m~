@@ -91,9 +91,10 @@ b = E(1,2);
 Data_x = [];
 Data_y = [];
 
-Rank_Hs = rank(Hs);
+
     
-for e = a:.001:b  
+for e = a:.001:b 
+    
     Hsdagger = (Hs)' ;
     length = size(Hsdagger,1);
 
@@ -115,9 +116,9 @@ for e = a:.001:b
         temp = [temp, D(j,j)];
     end
     
-    temp = sort(temp, 'ComparisonMethod','abs');
+    temp = sort(temp);
     
-    for j = 1:Rank_Hs
+    for j = 1:rank(Hs)
         index1 = size(temp,2)/2 - j +1;
         index2 = size(temp,2)/2 +j;
         
@@ -125,7 +126,7 @@ for e = a:.001:b
         %Data_x = [Data_x, temp(index1), temp(index2)];
         Data_y = [Data_y, e, e];    
     end
-    
+     
 end
 
 %Build imaginary and real data to plot. 
@@ -161,9 +162,6 @@ scatter( -abs(Imag_k), Imag_E, '.')
 title('Imaginary k v. E')
 ylim([a,b])
 
-
-save('Meta.mat','Imag_k','Imag_E','Real_k','Real_E');
-saveas(figure,'Meta.jpg')
 
 return %Code WIll stop here%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
