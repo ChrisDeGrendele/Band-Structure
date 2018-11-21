@@ -3,13 +3,13 @@ clear all
 %beta_1 = -2.2;  %THIS GIVES WEIRD STUFF?
 %beta_2 = 1.5;
 
-alpha = 0.8;
-beta_1 = -.4;
-beta_2 = -1.3;
+alpha = 0;
+beta_1 = -1;
+beta_2 = -3;
 
-%Test system 1
+%A SIMPLE TWO BAND STRUCTURE
 Hd = [alpha, beta_1;beta_1,-alpha];
-Hs = [0,beta_2;beta_2,0];
+Hs = [0,beta_2;0,0];
 
 %Test System 2
 %Hd = [alpha, beta_1;beta_1,alpha];
@@ -42,7 +42,7 @@ Hs = [0,beta_2;beta_2,0];
 %Hd = [alpha, beta_1;beta_1,-alpha];
 %Hs = [0,beta_2;beta_2,0];
 
-%Model System 3
+%Model System 3 PARA
 %alpha = 0;
 %beta = -.5;
 %Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, beta, ...
@@ -51,23 +51,23 @@ Hs = [0,beta_2;beta_2,0];
 %Hs = zeros(6);
 %Hs(1,4) = beta;
 
-%Model System 4
-%alpha = 0;
-%beta = -.5;
-%Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, ...
-%    beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, ...
-%    beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
-%Hs = zeros(6);
-%Hs(1,3) = beta;
-
-%Model System 5
+%Model System 4 META
 alpha = 0;
 beta = -.5;
 Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, ...
     beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, ...
     beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
 Hs = zeros(6);
-Hs(1,2) = beta;
+Hs(1,3) = beta;
+
+%Model System 5 ORTHO
+%alpha = 0;
+%beta = -.5;
+%Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, ...
+%    beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, ...
+%    beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
+%Hs = zeros(6);
+%Hs(1,2) = beta;
 
 %Model System 6
 %Hd = -.5* [0,1,0,0,0,1;1,0,1,0,0,0;0,1,0,1,0,0;0,0,1,0,1,0;0,0,0,1,0,1;1,0,0,0,1,0];
@@ -84,7 +84,7 @@ Hs(1,2) = beta;
 
 %Hd = [0];
 %Hs = [-1/2];
-E=[-4,4];
+E=[-5,5];
 a = E(1,1);
 b = E(1,2);
 
@@ -96,7 +96,7 @@ b = E(1,2);
 
 %Build imaginary and real data to plot. 
 %This will plot a point with imag to imag
-min_epsilon = 1e-4;
+min_epsilon = .5e-4;
 ideal_spacing = .02;
 
 
@@ -164,7 +164,7 @@ end
 
 
 
-figure;
+figure(1);
 ax1=subplot('Position',[.4 .3 .3 .3]); %Position = [Left bottom width height];
 scatter(abs(Real_k), Real_E, '.')
 title('Real k v. E')
@@ -178,11 +178,11 @@ title('Imaginary k v. E')
 ylim([a,b])
 
 
-save_val = false;
-if save_val = true;
-    save('Plotdata.mat','Imag_k','Imag_E','Real_k','Real_E');
-    uiimport('Plotdata.mat')
-    saveas(figure,'Plotdata.jpg')
+save_val = true;
+if save_val == true
+    save('/Users/chris/Documents/GitHub/Band-Structure/pictures/meta.mat','Imag_k', ...
+        'Imag_E','Real_k','Real_E');
+    saveas(1,'/Users/chris/Documents/GitHub/Band-Structure/pictures/meta.jpg')
 end
 
 return
