@@ -63,7 +63,9 @@ Hs = [0,beta_2;beta_2,0];
 %Model System 5
 %alpha = 0;
 %beta = -.5;
-%Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, beta,alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, beta, alpha,beta; beta, 0, 0, 0, beta, alpha];
+%Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, beta, ...
+%    alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, beta, alpha,...
+%    beta; beta, 0, 0, 0, beta, alpha];
 %Hs = zeros(6);
 %Hs(1,2) = beta;
 
@@ -75,13 +77,13 @@ Hs = [0,beta_2;beta_2,0];
 %Hs(5,4)= -.5;
 %Hs(6,1) = -.5;
 
-%alpha = 0.8;
-%beta_1 = -.4;
-%beta_2 = -1.3;
+alpha = 0.8;
+beta_1 = -.4;
+beta_2 = -1.3;
 
 %Test system 1
-%Hd = [alpha, beta_1;beta_1,-alpha];
-%Hs = [0,beta_2;beta_2,0];
+Hd = [alpha, beta_1;beta_1,-alpha];
+Hs = [0,beta_2;beta_2,0];
 
 
 %Data
@@ -173,12 +175,8 @@ title('Imaginary k v. E')
 ylim([a,b])
 
 %T = table(Real_k,Real_E,Imag_k,Imag_E);
-save_val = false;
-if save_val = true
-    save('Plotdata.mat','Imag_k','Imag_E','Real_k','Real_E');
-    uiimport('Plotdata.mat')
-    saveas(figure,'Plotdata.jpg')
-end
+save('Plotdata.mat','Imag_k','Imag_E','Real_k','Real_
+
 
 return %Code WIll stop here%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
