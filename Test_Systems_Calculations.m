@@ -178,6 +178,12 @@ title('Imaginary k v. E')
 ylim([a,b])
 
 
+save_val = false;
+if save_val = true;
+    save('Plotdata.mat','Imag_k','Imag_E','Real_k','Real_E');
+    uiimport('Plotdata.mat')
+    saveas(figure,'Plotdata.jpg')
+end
 
 return
 %Below is stuff for calculating branch point 
