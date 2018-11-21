@@ -96,7 +96,7 @@ b = E(1,2);
 
 %Build imaginary and real data to plot. 
 %This will plot a point with imag to imag
-min_epsilon = .5e-4;
+min_epsilon = 1e-3;
 ideal_spacing = .02;
 
 
