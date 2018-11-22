@@ -30,7 +30,7 @@ for e = a:b
     while i <= XX
        j=1;
        while j <=YY
-          Mag = ( (real( D(i,j) ))^2 + (imag( D(i,j) ))^2 )^(1/2);
+           
           if Mag < 1.0
               Dprime(i,j) = D(i,j);
           else                  

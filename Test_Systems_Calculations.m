@@ -1,17 +1,78 @@
+close all
 clear all
-%alpha = -3;
-%beta_1 = -2.2;  %THIS GIVES WEIRD STUFF?
-%beta_2 = 1.5;
-
-
-alpha = 0.5;
-beta_1 = -.3;
-beta_2 = -1;
+%======================PAPER SYSTEMS======================================
 
 %A SIMPLE TWO BAND STRUCTURE
+alpha = 0;
+beta_1 = -.3;
+beta_2 = -1;
 Hd = [alpha, beta_1;beta_1,-alpha];
 Hs = [0,beta_2;0,0];
 
+% PARA
+%alpha = 0;
+%beta = -.5;
+%Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, beta, ...
+%    alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, beta, alpha,...
+%    beta; beta, 0, 0, 0, beta, alpha];
+%Hs = zeros(6);
+%Hs(1,4) = beta;
+
+% META
+%alpha = 0;
+%beta = -.5;
+%Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, ...
+%    beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, ...
+%    beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
+%Hs = zeros(6);
+%Hs(1,3) = beta;
+
+% ORTHO
+%alpha = 0;
+%beta = -.5;
+%Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, ...
+%    beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, ...
+%    beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
+%Hs = zeros(6);
+%Hs(1,2) = beta;
+
+
+%Asymetric Complex Bands (ATTEMPT)
+%Hd = zeros(10);
+%Hd(1,2)= -.5;
+%Hd(2,1) = -.5;
+%Hd(1,9)= -.5;
+%Hd(9,1) = -.5;
+%Hd(2,3)= -.5;
+%Hd(3,2) = -.5;
+%Hd(3,10)= -.5;
+%Hd(10,3) = -.5; 
+%Hd(4,5)= -.5;
+%Hd(5,4) = -.5; 
+%Hd(4,10)= -.5;
+%Hd(10,4) = -.5;
+%Hd(5,6)= -.5;
+%Hd(6,5) = -.5;
+%Hd(6,7)= -.5;
+%Hd(7,6) = -.5; 
+%Hd(7,8)= -.5;
+%Hd(8,7) = -.5; 
+%Hd(8,9)= -.5;
+%Hd(9,8) = -.5;
+%Hd(9,10)= -.5;
+%Hd(10,9) = -.5; 
+%Hs = zeros(10); 
+%Hs(4,7) = -.5;
+
+%Comb Molecule 
+%Hd = [0,-0.5;-0.5,0];
+%Hs = [-0.5, 0;0,0];
+
+
+
+%======================END OF PAPER SYSTEMS===============================
+
+%======================OTHER SYSTEMS======================================
 
 %Test System 2
 %Hd = [alpha, beta_1;beta_1,alpha];
@@ -48,34 +109,6 @@ Hs = [0,beta_2;0,0];
 %Hs = [0,beta_2;beta_2,0];
 
 
-%Model System 3 PARA
-alpha = 0;
-beta = -.5;
-Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, beta, ...
-    alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, beta, alpha,...
-    beta; beta, 0, 0, 0, beta, alpha];
-Hs = zeros(6);
-Hs(1,4) = beta;
-
-%Model System 4 META
-alpha = 0;
-beta = -.5;
-Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, ...
-    beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, ...
-    beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
-Hs = zeros(6);
-Hs(1,3) = beta;
-
-%Model System 5 ORTHO
-%alpha = 0;
-%beta = -.5;
-%Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, ...
-%    beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, ...
-%    beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
-
-%Hs = zeros(6);
-%Hs(1,2) = beta;
-
 %Model System 6
 %Hd = -.5* [0,1,0,0,0,1;1,0,1,0,0,0;0,1,0,1,0,0;0,0,1,0,1,0;0,0,0,1,0,1;1,0,0,0,1,0];
 %Hs = zeros(6);
@@ -93,14 +126,7 @@ Hs(1,3) = beta;
 %Hs = [0,beta_2;beta_2,0];
 
 
-%Data
-%Hd = [.8,-.4;-.4,-.8];
-%Hs = [0,-1.3;-1.3,0];
-%E = [-10,10];
-
-%Hd = [0];
-%Hs = [-1/2];
-
+%======================END OF OTHER SYSTEMS===============================
 
 E=[-5,5];
 a = E(1,1);
