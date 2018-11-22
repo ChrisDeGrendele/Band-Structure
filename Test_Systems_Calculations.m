@@ -3,9 +3,9 @@ clear all
 %beta_1 = -2.2;  %THIS GIVES WEIRD STUFF?
 %beta_2 = 1.5;
 
-alpha = 0;
-beta_1 = -1;
-beta_2 = -3;
+alpha = 0.5;
+beta_1 = -.3;
+beta_2 = -1;
 
 %A SIMPLE TWO BAND STRUCTURE
 Hd = [alpha, beta_1;beta_1,-alpha];
@@ -43,13 +43,13 @@ Hs = [0,beta_2;0,0];
 %Hs = [0,beta_2;beta_2,0];
 
 %Model System 3 PARA
-%alpha = 0;
-%beta = -.5;
-%Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, beta, ...
-%    alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, beta, alpha,...
-%    beta; beta, 0, 0, 0, beta, alpha];
-%Hs = zeros(6);
-%Hs(1,4) = beta;
+alpha = 0;
+beta = -.5;
+Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, beta, ...
+    alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, beta, alpha,...
+    beta; beta, 0, 0, 0, beta, alpha];
+Hs = zeros(6);
+Hs(1,4) = beta;
 
 %Model System 4 META
 alpha = 0;
@@ -84,39 +84,29 @@ Hs(1,3) = beta;
 
 %Hd = [0];
 %Hs = [-1/2];
+
 E=[-5,5];
 a = E(1,1);
 b = E(1,2);
-
-  
-    
-%DELETED E LOOP HERE. 
-%CALL FUNCTION THAT WILL BUILD DATA_X AND DATA_Y
-%WHERE DATA X = COMPLEX_K AND DATA Y = COMPLEX_Y
-
-%Build imaginary and real data to plot. 
-%This will plot a point with imag to imag
-min_epsilon = 1e-3;
+min_epsilon = 1e-4;
 ideal_spacing = .02;
 
-
 [Data_x, Data_y] = amr_KvsE(Hd,Hs,E,min_epsilon, ideal_spacing);
-%And only purely real to real
 
-Imag_k=  [];
+Imag_k = [];
 Imag_E = [];
 Real_k = [];
 Real_E = [];
+
 for e = 1:size(Data_x,2)
-    if imag( Data_x(e) ) ~= 0
+    if abs(imag( Data_x(e) )) > 1.e-6
         Imag_k = [Imag_k, imag(Data_x(e)) ];
         Imag_E = [Imag_E, Data_y(e)];
-    elseif imag( Data_x(e) ) == 0
+    else
         Real_k = [Real_k, Data_x(e)];
         Real_E = [Real_E, Data_y(e)];
     end
 end
-
 
 
 
@@ -178,7 +168,7 @@ title('Imaginary k v. E')
 ylim([a,b])
 
 
-save_val = true;
+save_val = false;
 if save_val == true
     save('/Users/chris/Documents/GitHub/Band-Structure/pictures/meta.mat','Imag_k', ...
         'Imag_E','Real_k','Real_E');
