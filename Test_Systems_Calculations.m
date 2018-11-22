@@ -3,13 +3,15 @@ clear all
 %beta_1 = -2.2;  %THIS GIVES WEIRD STUFF?
 %beta_2 = 1.5;
 
-alpha = 0.8;
-beta_1 = -.4;
-beta_2 = -1.3;
 
-%Test system 1
+alpha = 0.5;
+beta_1 = -.3;
+beta_2 = -1;
+
+%A SIMPLE TWO BAND STRUCTURE
 Hd = [alpha, beta_1;beta_1,-alpha];
-Hs = [0,beta_2;beta_2,0];
+Hs = [0,beta_2;0,0];
+
 
 %Test System 2
 %Hd = [alpha, beta_1;beta_1,alpha];
@@ -33,7 +35,10 @@ Hs = [0,beta_2;beta_2,0];
 %Hd = [alpha, beta_1;beta_1,-alpha];
 %Hs = [0,beta_2;beta_2,0];
 
-%%Test System 5
+
+%Test System 5
+
+
 %alpha = 0.21;
 %beta_1 = -2.43;
 %beta_2 = .13;
@@ -42,28 +47,32 @@ Hs = [0,beta_2;beta_2,0];
 %Hd = [alpha, beta_1;beta_1,-alpha];
 %Hs = [0,beta_2;beta_2,0];
 
-%%Model System 3
-%alpha = 0;
-%beta = -.5;
-%Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, ... 
-%    0, 0, 0; 0, beta, alpha, beta, 0, 0; 0, 0, beta, alpha,...
-%    beta, 0; 0, 0, 0, beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
-%Hs = zeros(6);
-%Hs(1,4) = beta;
 
-%Model System 4
+%Model System 3 PARA
+alpha = 0;
+beta = -.5;
+Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, beta, ...
+    alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, beta, alpha,...
+    beta; beta, 0, 0, 0, beta, alpha];
+Hs = zeros(6);
+Hs(1,4) = beta;
+
+%Model System 4 META
+alpha = 0;
+beta = -.5;
+Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, ...
+    beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, ...
+    beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
+Hs = zeros(6);
+Hs(1,3) = beta;
+
+%Model System 5 ORTHO
 %alpha = 0;
 %beta = -.5;
-%Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0,...
+%Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, ...
 %    beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, ...
 %    beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
-%Hs = zeros(6);
-%Hs(1,3) = beta;
 
-%Model System 5
-%alpha = 0;
-%beta = -.5;
-%Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, beta,alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, beta, alpha,beta; beta, 0, 0, 0, beta, alpha];
 %Hs = zeros(6);
 %Hs(1,2) = beta;
 
@@ -91,63 +100,27 @@ Hs = [0,beta_2;beta_2,0];
 
 %Hd = [0];
 %Hs = [-1/2];
-E=[-4,4];
 
 
-a = E(1,1); 
+E=[-5,5];
+a = E(1,1);
 b = E(1,2);
-Data_x = [];
-Data_y = [];
+min_epsilon = 1e-4;
+ideal_spacing = .02;
 
-    
-for e = a:.001:b 
-    
-    Hsdagger = (Hs)' ;
-    length = size(Hsdagger,1);
+[Data_x, Data_y] = amr_KvsE(Hd,Hs,E,min_epsilon, ideal_spacing);
 
-    %Calculate Inverse Hermitian Conjugate
-    for j = 1:length
-        for k = 1:length
-            Hsdagger(j,k) = conj(Hsdagger(j,k));
-        end
-    end
-    
-    %BUILD AV = BVD (GENERALIZED EIGEN VALUE PROBLEM)
-    A = [e*eye(length) - Hd, -Hs; eye(length), zeros(length)];
-    B = [Hsdagger, zeros(length); zeros(length), eye(length)];
-    [V,D] = eig(A,B); %AV = BVD
-    
-    
-    temp = [];
-    for j = 1:size(D,2)
-        temp = [temp, D(j,j)];
-    end
-    
-    temp = sort(temp);
-    
-    for j = 1:rank(Hs)
-        index1 = size(D,2)/2 - j +1;
-        index2 = size(D,2)/2 +j;
-        
-        Data_x = [Data_x, log( temp(index1) )/(1i), log( temp(index2) )/(1i)];
-        Data_y = [Data_y, e, e];    
-    end
-     
-end
 
-%Build imaginary and real data to plot. 
-%This will plot a point with imag to imag
-%And only purely real to real
-Imag_k=  [];
+Imag_k = [];
 Imag_E = [];
 Real_k = [];
 Real_E = [];
 
 for e = 1:size(Data_x,2)
-    if imag( Data_x(e) ) ~= 0
+    if abs(imag( Data_x(e) )) > 1.e-6
         Imag_k = [Imag_k, imag(Data_x(e)) ];
         Imag_E = [Imag_E, Data_y(e)];
-    elseif imag( Data_x(e) ) == 0
+    else
         Real_k = [Real_k, Data_x(e)];
         Real_E = [Real_E, Data_y(e)];
     end
@@ -155,114 +128,52 @@ end
 
 
 
-
-
-
-
-figure;
-ax1=subplot('Position',[.4 .3 .3 .3]); %Position = [Left bottom width height];
-scatter(abs(Real_k), Real_E, '.')
-title('Real k v. E')
-ylim([a,b])
-
-hold on
-ax2=subplot('Position',[.1 .3 .3 .3]);
-set(ax2,'YTick',[],'XTick',[]);
-scatter( -abs(Imag_k), Imag_E, '.')
-title('Imaginary k v. E')
-ylim([a,b])
-
-%T = table(Real_k,Real_E,Imag_k,Imag_E);
-save_val = false;
-if save_val = true
-    save('Plotdata.mat','Imag_k','Imag_E','Real_k','Real_E');
-    uiimport('Plotdata.mat')
-    saveas(figure,'Plotdata.jpg')
-end
-
-return %Code WIll stop here%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%SCREEN OUT 0 , pi, pi/2 for real data
-
-stop=0;
+%Sorts data
 [Real_k, sortIndex] = sort(Real_k);
 Real_E = Real_E(sortIndex);
-while stop == 0 
-for j = 1:size(Real_k,2)
-    if size(Real_k,2) < j
-        break
-    elseif abs( Real_k(j) ) - .1 < 0   %OUT WITH 0 
-        Real_k(j) = [];
-        Real_E(j) = [];
-        Real_k(end) = [];   %Screens out zeros and infty eigen values.
-        Real_E(end) = [];
-        stop=0;
-        break
-    elseif abs ( Real_k(j)) == inf
-        Real_k(j) = [];
-        Real_E(j) = [];
-        stop=0;
-    elseif abs (Real_k(j) - pi*.5)  < .01   %OUT WITH PI/2
-        Real_k(j) = [];
-        Real_E(j) = [];
-        stop=0;
-    elseif abs( Real_k(j)  - pi)  < 0.01     %OUT WITH PI
-        Real_k(j) = [];
-        Real_E(j) = [];
-        stop=0;
-    else
-        stop = 1;
-    end
-end
-
-end
 
 
-
-%Sorts data
-[Imag_k, sortIndex] = sort(Imag_k);
-Imag_E = Imag_E(sortIndex);
-%Same as above, copy-pasted, screens out zeros for imag data now
-stop=0;
-while stop ==0 
-for j = 1:size(Imag_k,2)
-    flag = 0;
-    if size(Imag_k,2) < j
-        flag =1; 
-        break
-    elseif abs( Imag_k(j) ) < .1
-        Imag_k(j) = [];
-        Imag_E(j) = []; 
-        stop=0;
-        flag = 1;
-        break
-    elseif abs ( Imag_k(j) ) == inf
-        Imag_k(j) = [];
-        Imag_E(j) = [];
-        stop=0;
-    else
-        stop=1;
-    end
-    if flag == 1; %Work around to break out of outer loop and restart process
-        break
-    end
-end
-end
- 
 [Imag_k, sortIndex] = sort(Imag_k);
 Imag_E = Imag_E(sortIndex);
 
-%Imag_k(1) = [];
-%Imag_E(1) = [];
+%Screens out zeros
+i = 1;
+eps_forzero = .01;
+while i < size(Real_k,2)
+    
+    if i > size(Real_k,2) %End of array reached
+        break
+    elseif abs( Real_k(i) ) - eps_forzero < 0
+        Real_E(i) = [];
+        Real_k(i) = [];
+    elseif abs( Real_k(i) ) - eps_forzero > 0
+        i = i+1; %Only step forward if condition holds
+    end
+    
+end
 
-%if Imag_k(end) - Imag_k(end-1) > Imag_k(end-1)
-%    Imag_k(end) = [];
-%    Imag_E(end) = [];
-%end
+% A copy of above, just for Imaginary values
+%maybe make this into a function for cleaner code, but it's only used 
+%twice so idk
+i = 1;
+eps_forzero = .01;
+while i < size(Imag_k,2)
+    
+    if i > size(Imag_k,2) %End of array reached
+        break
+    elseif abs( Imag_k(i) ) - eps_forzero < 0
+        Imag_E(i) = [];
+        Imag_k(i) = [];
+    elseif abs( Imag_k(i) ) - eps_forzero > 0
+        i = i+1; %Only step forward if condition holds
+    end
+    
+end
+    
 
 
-figure;
+
+figure(1);
 ax1=subplot('Position',[.4 .3 .3 .3]); %Position = [Left bottom width height];
 scatter(abs(Real_k), Real_E, '.')
 title('Real k v. E')
@@ -275,6 +186,19 @@ scatter( -abs(Imag_k), Imag_E, '.')
 title('Imaginary k v. E')
 ylim([a,b])
 
+
+save_val = false;
+if save_val == true
+    save('/Users/chris/Documents/GitHub/Band-Structure/pictures/meta.mat','Imag_k', ...
+        'Imag_E','Real_k','Real_E');
+    saveas(1,'/Users/chris/Documents/GitHub/Band-Structure/pictures/meta.jpg')
+end
+
+return
+%Below is stuff for calculating branch point 
+%--------------------------------------------------------------------------
+%--------------------------------------------------------------------------
+%--------------------------------------------------------------------------
 
 Imag_k = abs(Imag_k);
 Real_k = abs(Real_k);
@@ -350,24 +274,21 @@ Imag_k = Pure_Imag_k;
 Imag_E = Pure_Imag_E;
 
 %Screen out all the zeros (again)
-stop = 0;
-while stop ==0
-stop =1;
-for j = 1:size(Imag_E,2)
-    if size(Imag_k,2) < j
-        stop=0;
+i = 1;
+eps_forzero = .01;
+while i < size(Imag_k,2)
+    
+    if i > size(Imag_k,2) %End of array reached
         break
-    elseif Imag_k(j) == 0 
-        Imag_k(j) = [];
-        Imag_E(j) = [];
-        stop = 0;
-    elseif (Imag_E(j) > high) | (Imag_E(j) < low)
-        Imag_k(j) = [];
-        Imag_E(j) = [];
-        stop = 0;
+    elseif abs( Imag_k(i) ) - eps_forzero < 0
+        Imag_E(i) = [];
+        Imag_k(i) = [];
+    elseif abs( Imag_k(i) ) - eps_forzero > 0
+        i = i+1; %Only step forward if condition holds
     end
+    
 end
-end
+    
 
 %Calculate branch point
 [K_branch,loc] = max(Imag_k);
