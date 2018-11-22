@@ -3,6 +3,7 @@ clear all
 %beta_1 = -2.2;  %THIS GIVES WEIRD STUFF?
 %beta_2 = 1.5;
 
+
 alpha = 0.5;
 beta_1 = -.3;
 beta_2 = -1;
@@ -10,6 +11,7 @@ beta_2 = -1;
 %A SIMPLE TWO BAND STRUCTURE
 Hd = [alpha, beta_1;beta_1,-alpha];
 Hs = [0,beta_2;0,0];
+
 
 %Test System 2
 %Hd = [alpha, beta_1;beta_1,alpha];
@@ -33,7 +35,10 @@ Hs = [0,beta_2;0,0];
 %Hd = [alpha, beta_1;beta_1,-alpha];
 %Hs = [0,beta_2;beta_2,0];
 
+
 %Test System 5
+
+
 %alpha = 0.21;
 %beta_1 = -2.43;
 %beta_2 = .13;
@@ -41,6 +46,7 @@ Hs = [0,beta_2;0,0];
 %Hs = [beta_2,0;0,0];
 %Hd = [alpha, beta_1;beta_1,-alpha];
 %Hs = [0,beta_2;beta_2,0];
+
 
 %Model System 3 PARA
 alpha = 0;
@@ -66,6 +72,7 @@ Hs(1,3) = beta;
 %Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, ...
 %    beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, ...
 %    beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
+
 %Hs = zeros(6);
 %Hs(1,2) = beta;
 
@@ -77,6 +84,15 @@ Hs(1,3) = beta;
 %Hs(5,4)= -.5;
 %Hs(6,1) = -.5;
 
+%alpha = 0.8;
+%beta_1 = -.4;
+%beta_2 = -1.3;
+
+%Test system 1
+%Hd = [alpha, beta_1;beta_1,-alpha];
+%Hs = [0,beta_2;beta_2,0];
+
+
 %Data
 %Hd = [.8,-.4;-.4,-.8];
 %Hs = [0,-1.3;-1.3,0];
@@ -85,6 +101,7 @@ Hs(1,3) = beta;
 %Hd = [0];
 %Hs = [-1/2];
 
+
 E=[-5,5];
 a = E(1,1);
 b = E(1,2);
@@ -92,6 +109,7 @@ min_epsilon = 1e-4;
 ideal_spacing = .02;
 
 [Data_x, Data_y] = amr_KvsE(Hd,Hs,E,min_epsilon, ideal_spacing);
+
 
 Imag_k = [];
 Imag_E = [];
@@ -113,6 +131,7 @@ end
 %Sorts data
 [Real_k, sortIndex] = sort(Real_k);
 Real_E = Real_E(sortIndex);
+
 
 [Imag_k, sortIndex] = sort(Imag_k);
 Imag_E = Imag_E(sortIndex);
