@@ -1,23 +1,13 @@
 
 %A SIMPLE TWO BAND STRUCTURE
-alpha = 0;
+alpha = -1/2;  %Try 0, try -1/2.
 beta_1 = -.3;
 beta_2 = -1;
 Hd = [alpha, beta_1;beta_1,-alpha];
 Hs = [0,beta_2;0,0];
 E = 1;
 
-T = buildT(Hd,Hs,E);
-
-[V,D] = eig(T);
-
-
-for i = 1:length(D)
-    Mag = ( (real( D(i,i) ))^2 + (imag( D(i,i) ))^2 )^(1/2);
-    if Mag > 1
-        D(i,i) =0;
-    end
-end
+[V,D] = buildVDV(Hd,Hs,E);
 
 Data_k = [];
 Data_norm = [];
@@ -29,11 +19,37 @@ end
 plot(Data_k, Data_norm)
     
 
+%Below is the Ta Tb stuff
+%We're going to have 1 Hd and 2 Hs For an A(BA)^k molecule
+
+Hd = 
+Hs_a = 
+Hs_b = 
+
+[Va, Da] = buildVDV(Hd, Hs_a, E);
+[Vb, Db] = buildVDV(Hd, Hs_b, E);
+
+Data_ABA = [];
+Datak = [];
+T_Ba = (Vb*Db*Vb^-1) * (Va*Da*Va^-1);
+T_A = (Va*Da*Va^-1);
+T_Batok = 1; %Starts at 1
+
+for k = 0:8
+    Teff = T_A * T_batok;  
+    Datak = [Datak,k];
+    Data_ABA = [Data_ABA, norm(Teff)];
+    T_batok = T_batok*T_ba; %Each k multiply in a new ab. This saves computing power 
+end
+
+plot(Datak, Data_ABA)
 
 
 
 
-function T = buildT(Hd, Hs, e)
+
+
+function [V1,D1] = buildVDV(Hd, Hs, e)
     num = size(Hs,1);
     
     A = [e*eye(num) - Hd, -Hs; eye(num), zeros(num)];
@@ -62,8 +78,17 @@ function T = buildT(Hd, Hs, e)
         end
     end
     
-    T = V * diag(D_array) * inv(V);
+    D = diag(D_array);
+    %Screen out all eigen values >1
+    for i = 1:length(D)
+        Mag = ( (real( D(i,i) ))^2 + (imag( D(i,i) ))^2 )^(1/2);
+        if Mag >= 1
+            D(i,i) =0;
+        end
+    end
     
+    V1 = V;
+    D1 = D;
 end
     
     
