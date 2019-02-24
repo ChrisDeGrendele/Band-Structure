@@ -3,11 +3,11 @@
 clear all
 close all
 %Values
-alpha = 2;  
-beta_1 = 3;
-beta_2 = -1;
-E = 0 + .000001*i;
 
+alpha = 2;  
+beta_1 = 2;
+beta_2 = 3;
+E = 1 + .000001*i;
 %Matrices
 Hd = alpha;
 Hs_a = beta_1;  
@@ -22,7 +22,7 @@ Datak = [];
 [Vb, Db] = buildVDV(Hd, Hs_b, E);
 
 
-for k = 0:10
+for k = 0:100
     T_ABA = (Va*Da*Va^-1) * ((Vb*Db*Vb^-1) * (Va*Da*Va^-1))^k;
     [V_orig,D_orig] = eig(T_ABA);
     [V,D] = screenout(V_orig,D_orig,Hs_a);
@@ -58,11 +58,6 @@ function [V,D] = screenout(V,D,Hs)
         end
     end
     
-    for i = 1:length(D_array)
-        if D_array(i) > .9
-            D_array(i) =0;
-        end
-    end
 
     %Diagonlize array
     D = diag(D_array);
