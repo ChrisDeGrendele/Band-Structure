@@ -1,42 +1,43 @@
 close all
 clear all
+
 %======================PAPER SYSTEMS======================================
-
+ 
 %A SIMPLE TWO BAND STRUCTURE
-alpha = 0;
-beta_1 = -.3;
-beta_2 = -1;
-Hd = [alpha, beta_1;beta_1,-alpha];
-Hs = [0,beta_2;0,0];
-
+%alpha = 0;
+%beta_1 = -.3;
+%beta_2 = -1;
+%Hd = [alpha, beta_1;beta_1,-alpha];
+%Hs = [0,beta_2;0,0];
+ 
 % PARA
 %alpha = 0;
 %beta = -.5;
 %Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, beta, ...
-%    alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, beta, alpha,...
-%    beta; beta, 0, 0, 0, beta, alpha];
+%    alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, beta, alpha,...
+%    beta; beta, 0, 0, 0, beta, alpha];
 %Hs = zeros(6);
 %Hs(1,4) = beta;
-
+ 
 % META
 %alpha = 0;
 %beta = -.5;
 %Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, ...
-%    beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, ...
-%    beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
+%    beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, ...
+%    beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
 %Hs = zeros(6);
 %Hs(1,3) = beta;
-
+ 
 % ORTHO
 %alpha = 0;
 %beta = -.5;
 %Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, ...
-%    beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, ...
-%    beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
+%    beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, ...
+%    beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
 %Hs = zeros(6);
 %Hs(1,2) = beta;
-
-
+ 
+ 
 %Asymetric Complex Bands (ATTEMPT)
 %Hd = zeros(10);
 %Hd(1,2)= -.5;
@@ -63,21 +64,57 @@ Hs = [0,beta_2;0,0];
 %Hd(10,9) = -.5; 
 %Hs = zeros(10); 
 %Hs(4,7) = -.5;
-
+ 
 %Comb Molecule 
 %Hd = [0,-0.5;-0.5,0];
 %Hs = [-0.5, 0;0,0];
-
-
-
+ 
+% Siloxane
+Hd = zeros(8);
+Hd(1,1) = 4.08;
+Hd(1,5) = -3;
+Hd(1,8) = 5.4;
+Hd(2,2) = 10;
+Hd(2,6) = -1.4;
+Hd(3,3) = 10; 
+Hd(3,7) = -1.4;
+Hd(4,4) = 10;
+Hd(4,5) = 5;
+Hd(4,8) = 6; 
+Hd(5,1) = -3;
+Hd(5,4) = 5;
+Hd(5,5) = -1;
+Hd(6,2) = -1.4; 
+Hd(6,6) = -16; 
+Hd(7,3) = -1.4; 
+Hd(7,7) = -16; 
+Hd(8,1) = 5.4; 
+Hd(8,4) = 6;
+Hd(8,8) = -16; 
+Hs = zeros(8);
+Hs(1,4) = -3; 
+Hs(1,8) = 5; 
+Hs(2,6) = -1.4;
+Hs(3,7) = -1.4; 
+Hs(4,5) = 5.4; 
+Hs(4,8) = 6; 
+Hs(5,5) = -0.15; 
+Hs(5,8) = .35;
+Hs(6,6) = -0.13; 
+Hs(7,7) = -0.13; 
+Hs(8,5)= .35; 
+Hs(8,8) = .56; 
+ 
+ 
+ 
 %======================END OF PAPER SYSTEMS===============================
-
+ 
 %======================OTHER SYSTEMS======================================
-
+ 
 %Test System 2
 %Hd = [alpha, beta_1;beta_1,alpha];
 %Hs = [beta_2,0;0,0];
-
+ 
 %Test System 3 
 %alpha = 0.69;
 %beta_1 = -1.2;
@@ -86,7 +123,7 @@ Hs = [0,beta_2;0,0];
 %Hs = [beta_2,0;0,0];
 %Hd = [alpha, beta_1;beta_1,-alpha];
 %Hs = [0,beta_2;beta_2,0];
-
+ 
 %Test System 4
 %alpha = 0.69;
 %beta_1 = -1.35;
@@ -95,11 +132,11 @@ Hs = [0,beta_2;0,0];
 %Hs = [beta_2,0;0,0];
 %Hd = [alpha, beta_1;beta_1,-alpha];
 %Hs = [0,beta_2;beta_2,0];
-
-
+ 
+ 
 %Test System 5
-
-
+ 
+ 
 %alpha = 0.21;
 %beta_1 = -2.43;
 %beta_2 = .13;
@@ -107,8 +144,8 @@ Hs = [0,beta_2;0,0];
 %Hs = [beta_2,0;0,0];
 %Hd = [alpha, beta_1;beta_1,-alpha];
 %Hs = [0,beta_2;beta_2,0];
-
-
+ 
+ 
 %Model System 6
 %Hd = -.5* [0,1,0,0,0,1;1,0,1,0,0,0;0,1,0,1,0,0;0,0,1,0,1,0;0,0,0,1,0,1;1,0,0,0,1,0];
 %Hs = zeros(6);
@@ -116,16 +153,16 @@ Hs = [0,beta_2;0,0];
 %Hs(3,4) = -.5;
 %Hs(5,4)= -.5;
 %Hs(6,1) = -.5;
-
+ 
 %alpha = 0.8;
 %beta_1 = -.4;
 %beta_2 = -1.3;
-
+ 
 %Test system 1
 %Hd = [alpha, beta_1;beta_1,-alpha];
 %Hs = [0,beta_2;beta_2,0];
-
-
+ 
+ 
 %======================END OF OTHER SYSTEMS===============================
 
 E=[-5,5];
@@ -135,7 +172,8 @@ min_epsilon = 1e-4;
 ideal_spacing = .02;
 
 [Data_x, Data_y] = amr_KvsE(Hd,Hs,E,min_epsilon, ideal_spacing);
-
+%Data x -> Pure k values
+%Data y -> Pure E values 
 
 Imag_k = [];
 Imag_E = [];
@@ -213,11 +251,10 @@ title('Imaginary k v. E')
 ylim([a,b])
 
 
-save_val = false;
+save_val = true;
 if save_val == true
-    save('/Users/chris/Documents/GitHub/Band-Structure/pictures/meta.mat','Imag_k', ...
-        'Imag_E','Real_k','Real_E');
-    saveas(1,'/Users/chris/Documents/GitHub/Band-Structure/pictures/meta.jpg')
+    save('/Users/chris/Desktop/comb.mat','Data_x');
+    %saveas(1,'/Users/chris/Documents/GitHub/Band-Structure/pictures/meta.jpg')
 end
 
 return
