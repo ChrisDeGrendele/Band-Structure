@@ -32,8 +32,8 @@ clear all
 %alpha = 0;
 %beta = -.5;
 %Hd = [alpha, beta, 0, 0, 0, beta ;beta,alpha,beta, 0, 0, 0; 0, ...
-%    beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, ...
-%    beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
+%    beta, alpha, beta, 0, 0; 0, 0, beta, alpha, beta, 0; 0, 0, 0, ...
+%    beta, alpha, beta; beta, 0, 0, 0, beta, alpha];
 %Hs = zeros(6);
 %Hs(1,2) = beta;
  
@@ -104,6 +104,19 @@ Hs(6,6) = -0.13;
 Hs(7,7) = -0.13; 
 Hs(8,5)= .35; 
 Hs(8,8) = .56; 
+
+%alpha = 0.9; 
+%beta_sig = -0.25;
+%beta_pi = 1.2;
+%Hd = [alpha, 0, 0; 0, alpha, 0; 0, 0, alpha];
+%Hs = [beta_sig, 0, 0; 0, beta_pi, 0; 0, 0, beta_pi];
+
+%beta_pi2 = 0.6;
+%Hd = [alpha, 0, 0; 0, alpha, 0; 0, 0, alpha];
+%Hd = [Hd, zeros(3);zeros(3), Hd];
+%Hs = [beta_sig, 0, 0; 0, beta_pi, 0; 0, 0, beta_pi2];
+%Hs2 = [beta_sig, 0, 0; 0, 0.4*beta_pi, 0; 0, 0, 0.3*beta_pi2];
+%Hs = [zeros(3),Hs;zeros(3),Hs2];
  
  
  
@@ -165,15 +178,16 @@ Hs(8,8) = .56;
  
 %======================END OF OTHER SYSTEMS===============================
 
-E=[-5,5];
+E=[-50,50];
 a = E(1,1);
 b = E(1,2);
-min_epsilon = 1e-4;
+min_epsilon = 5e-4;
 ideal_spacing = .02;
 
 [Data_x, Data_y] = amr_KvsE(Hd,Hs,E,min_epsilon, ideal_spacing);
 %Data x -> Pure k values
 %Data y -> Pure E values 
+
 
 Imag_k = [];
 Imag_E = [];
@@ -253,7 +267,7 @@ ylim([a,b])
 
 save_val = true;
 if save_val == true
-    save('/Users/chris/Desktop/comb.mat','Data_x');
+    save('/Users/chris/Desktop/ortho.mat','Data_x');
     %saveas(1,'/Users/chris/Documents/GitHub/Band-Structure/pictures/meta.jpg')
 end
 
