@@ -33,9 +33,9 @@ while e < b
     %BUILD AV = BVD (GENERALIZED EIGEN VALUE PROBLEM)
     A = [e*eye(num) - Hd, -Hs; eye(num), zeros(num)];
     B = [Hsdagger, zeros(num); zeros(num), eye(num)];
-    [~,D] = eig(A,B); %AV = BVD
+    [V,D] = eig(A,B); %AV = BVD
     
-    
+
     %%%%%%%%%
     D_array = [];
     Simple_D = [];
